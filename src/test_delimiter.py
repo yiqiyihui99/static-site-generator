@@ -67,12 +67,12 @@ class TestDelimiter(unittest.TestCase):
         text_type = TextType.BOLD
         split_nodes = split_nodes_delimiter(nodes, delimiter, text_type)
         
-        # Note: Currently the function only handles the first pair of delimiters
-        # so this test verifies the current behavior
-        expected = [
-            TextNode("This has ", TextType.TEXT),
-            TextNode("two", TextType.BOLD),
-            TextNode(" **bold** sections", TextType.TEXT)
-        ]
+        expected = [TextNode("This has ", TextType.TEXT), 
+                    TextNode("two", TextType.BOLD),
+                    TextNode(" ", TextType.TEXT),
+                    TextNode("bold", TextType.BOLD),
+                    TextNode(" sections", TextType.TEXT)
+                    ]
+
         self.assertEqual(split_nodes, expected)
     

@@ -1,30 +1,21 @@
 from textnode import TextNode, TextType
 
 def split_nodes_delimiter(old_nodes, delimiter, text_type):
-    out = []
-    for node in old_nodes:
-        if node.text_type != TextType.TEXT:
-            out.append(node)
+    new_nodes = []
+    for old_node in old_nodes:
+        if old_node.text_type != TextType.TEXT:
+            new_nodes.append(old_node)
             continue
-
-        current_text = node.text
-        start_delimiter_index = current_text.find(delimiter)
-        if start_delimiter_index == -1:
-            out.append(node)
-            continue
-        
-        while start_delimiter_index != -1:
-            start_search_position=start_delimiter_index + len(delimiter)
-            
-            end_delimiter_index = current_text.find(delimiter, start_search_position)
-            if end_delimiter_index == -1:
-                raise ValueError(f"No closing delimiter '{delimiter}' found")
-            
-            out.extend([
-                TextNode(current_text[:start_delimiter_index], TextType.TEXT),
-                TextNode(current_text[start_delimiter_index + len(delimiter):end_delimiter_index], text_type),
-                TextNode(current_text[end_delimiter_index + len(delimiter):], TextType.TEXT)
-            ])
-            break
-            
-    return out
+        split_nodes = []
+        sections = old_node.text.split(delimiter)
+        if len(sections) % 2 == 0:
+            raise ValueError("invalid markdown, formatted section not closed")
+        for i in range(len(sections)):
+            if sections[i] == "":
+                continue
+            if i % 2 == 0:
+                split_nodes.append(TextNode(sections[i], TextType.TEXT))
+            else:
+                split_nodes.append(TextNode(sections[i], text_type))
+        new_nodes.extend(split_nodes)
+    return new_nodes
