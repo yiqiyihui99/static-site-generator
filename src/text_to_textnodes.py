@@ -15,6 +15,8 @@ def text_to_textnodes(input_text: str) -> list[TextNode]:
     
     bold_splitted = split_nodes_delimiter([node_representation], "**", TextType.BOLD)
     italic_splitted = split_nodes_delimiter(bold_splitted, "_", TextType.ITALIC)
+    # Also handle * for italics (in addition to _)
+    italic_splitted = split_nodes_delimiter(italic_splitted, "*", TextType.ITALIC)
     code_splitted = split_nodes_delimiter(italic_splitted, "`", TextType.CODE)
     image_splitted = split_nodes_image(code_splitted)
     link_splitted = split_nodes_link(image_splitted)
