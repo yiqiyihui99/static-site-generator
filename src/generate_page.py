@@ -20,10 +20,17 @@ def generate_page(from_path, template_path, dest_path):
     template = template.replace("{{ Content }}", html)
 
     dest_dir_path = os.path.dirname(dest_path)
-    if dest_dir_path != "":
-        os.makedirs(dest_dir_path, exist_ok=True)
+    os.makedirs(dest_dir_path, exist_ok=True)
     with open(dest_path, "w") as to_file:
         to_file.write(template)
     print (f"Wrote to {dest_path} using {template_path}")
     
-    
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+    os.makedirs(dest_dir_path, exist_ok=True)
+    for item in os.listdir(dir_path_content):
+        if os.path.isfile(os.path.join(dir_path_content, item)):
+            new_file = generate_page(os.path.join(dir_path_content, item), template_path, os.path.join(dest_dir_path, item.replace(".md", ".html")))
+        elif os.path.isdir(os.path.join(dir_path_content, item)):
+            generate_pages_recursive(os.path.join(dir_path_content, item), template_path, os.path.join(dest_dir_path, item))
+        else:
+            print(f"Skipping {item} because it is not a file or directory")

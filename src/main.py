@@ -1,11 +1,11 @@
 from textnode import TextNode, TextType
 import os
 import shutil
-from generate_page import generate_page
+from generate_page import generate_pages_recursive
 
 def main():
     source_to_dest("src/static", "public/")
-    generate_page("content/index.md", "template.html", "public/index.html")
+    generate_pages_recursive("content", "template.html", "public")
     
 # This function takes all contents from a source directory into a
 # destination directory (public)
