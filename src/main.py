@@ -4,7 +4,7 @@ import shutil
 from generate_page import generate_page
 
 def main():
-    source_to_dest("src/static", "../public/")
+    source_to_dest("src/static", "public/")
     generate_page("content/index.md", "template.html", "public/index.html")
     
 # This function takes all contents from a source directory into a
