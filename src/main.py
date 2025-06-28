@@ -1,9 +1,11 @@
 from textnode import TextNode, TextType
 import os
 import shutil
+from generate_page import generate_page
 
 def main():
-    source_to_dest("/mnt/c/Users/User/workspace/github.com/yiqiyihui99/static-site-generator/src/static", "../public/")
+    source_to_dest("src/static", "../public/")
+    generate_page("content/index.md", "template.html", "public/index.html")
     
 # This function takes all contents from a source directory into a
 # destination directory (public)
