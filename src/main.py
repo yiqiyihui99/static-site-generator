@@ -1,11 +1,22 @@
 from textnode import TextNode, TextType
 import os
 import shutil
+import sys
 from generate_page import generate_pages_recursive
 
+dir_path_static = "src/static"
+dir_path_public = "./docs"
+dir_path_content = "./content"
+template_path = "./template.html"
+default_basepath = "/"
+
 def main():
-    source_to_dest("src/static", "public/")
-    generate_pages_recursive("content", "template.html", "public")
+    basepath = default_basepath
+    if len(sys.argv) > 1:
+        basepath = sys.argv[1]
+    
+    source_to_dest(dir_path_static, dir_path_public)
+    generate_pages_recursive(dir_path_content, template_path, dir_path_public, basepath)
     
 # This function takes all contents from a source directory into a
 # destination directory (public)
